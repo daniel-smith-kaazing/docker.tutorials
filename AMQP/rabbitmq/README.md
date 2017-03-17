@@ -17,6 +17,7 @@ The Gateway container will run a `amqp.proxy` service that allows WebSocket clie
     <name>AMQP Tutorial Service</name>
     <description>A service that proxys to an AMQP backend</description>
     <accept>wss://kaazing.example.com:8000/</accept>
+    <accept>ws://kaazing.example.com:8001/</accept>
     <connect>tcp://rabbitmq:5672</connect>
 
     <type>amqp.proxy</type>
@@ -24,6 +25,11 @@ The Gateway container will run a `amqp.proxy` service that allows WebSocket clie
     <cross-site-constraint>
       <!-- Only WebSockets coming from this origin can access this url -->
       <allow-origin>https://kaazing.example.com:8000/</allow-origin>
+    </cross-site-constraint>
+
+    <cross-site-constraint>
+      <!-- Only WebSockets coming from this origin can access this url -->
+      <allow-origin>http://kaazing.example.com:8001/</allow-origin>
     </cross-site-constraint>
   </service>
 ```
@@ -40,6 +46,12 @@ The Gateway container will run a `amqp.proxy` service that allows WebSocket clie
 3. Change the connect URL of the demo to `wss://kaazing.example.com:8000/` and connect.
 
 4. Subscribe and publish AMQP messages as desired.
+
+### Connecting in the Clear
+
+You can also try connecting to the Gateway in a Web browser via [http://kaazing.example.com:8001/](http://kaazing.example.com:8001/). This connection is not secure - it demonstrates that it is possible to configure either type of connection to the AMQP service.
+
+In this case, you must use the connect URL 'ws://kaazing.example.com:8001/' to connect.
 
 ### Next Steps
   

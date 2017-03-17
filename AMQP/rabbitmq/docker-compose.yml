@@ -4,6 +4,8 @@ services:
     build: gateway
     ports:
       - "8000:8000"
+      - "8001:8001"
     hostname: "kaazing.example.com"
+
   rabbitmq:
     build: broker

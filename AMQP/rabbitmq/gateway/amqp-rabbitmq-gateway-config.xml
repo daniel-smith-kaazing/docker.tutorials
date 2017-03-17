@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <gateway-config xmlns="http://xmlns.kaazing.org/2015/11/gateway">
+ <properties>
+   <property>
+     <name>gateway.secure.port</name>
+     <value>8000</value>
+   </property>
+
+   <property>
+     <name>gateway.port</name>
+     <value>8001</value>
+   </property>
+
+ </properties>
 
   <service>
     <name>Directory Service</name>
@@ -8,7 +20,8 @@
         in web directory are available via https
     </description>
 
-    <accept>https://kaazing.example.com:8000/</accept>
+    <accept>http://kaazing.example.com:${gateway.port}/</accept>
+    <accept>https://kaazing.example.com:${gateway.secure.port}/</accept>
 
     <type>directory</type>
 
@@ -21,14 +34,22 @@
   <service>
     <name>AMQP Tutorial Service</name>
     <description>A service that proxys to an AMQP backend</description>
-    <accept>wss://kaazing.example.com:8000/</accept>
+
+    <accept>ws://kaazing.example.com:${gateway.port}/</accept>
+    <accept>wss://kaazing.example.com:${gateway.secure.port}/</accept>
+
     <connect>tcp://rabbitmq:5672</connect>
 
     <type>amqp.proxy</type>
 
     <cross-site-constraint>
-      <!-- Only websockets coming from this origin can access this url -->
-      <allow-origin>https://kaazing.example.com:8000/</allow-origin>
+    <!-- Only websockets coming from this origin can access this url -->
+      <allow-origin>https://kaazing.example.com:${gateway.secure.port}/</allow-origin>
+    </cross-site-constraint>
+
+    <cross-site-constraint>
+    <!-- Only websockets coming from this origin can access this url -->
+      <allow-origin>http://kaazing.example.com:${gateway.port}/</allow-origin>
     </cross-site-constraint>
   </service>
 
